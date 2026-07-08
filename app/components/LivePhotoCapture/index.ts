@@ -1,0 +1,1 @@
+export { LivePhotoCapture } from "./LivePhotoCapture";

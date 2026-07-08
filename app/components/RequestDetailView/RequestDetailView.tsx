@@ -4,8 +4,7 @@ import styles from "./RequestDetailView.module.css";
 interface RequestDetailViewProps {
   visitorName: string;
   visitorPhotoUrl: string;
-  purpose: string;
-  requestedWindow: string;
+  reason: string;
   submittedAt: string;
   /** Decision Action Bar, rendered by the caller */
   actions?: ReactNode;
@@ -14,8 +13,7 @@ interface RequestDetailViewProps {
 export function RequestDetailView({
   visitorName,
   visitorPhotoUrl,
-  purpose,
-  requestedWindow,
+  reason,
   submittedAt,
   actions,
 }: RequestDetailViewProps) {
@@ -28,12 +26,8 @@ export function RequestDetailView({
       </div>
       <div className={styles.fields}>
         <div>
-          <div className={styles.fieldLabel}>Purpose</div>
-          <div className={styles.fieldValue}>{purpose}</div>
-        </div>
-        <div>
-          <div className={styles.fieldLabel}>Requested window</div>
-          <div className={styles.fieldValue}>{requestedWindow}</div>
+          <div className={styles.fieldLabel}>Reason for visit</div>
+          <div className={styles.fieldValue}>{reason}</div>
         </div>
         <div>
           <div className={styles.fieldLabel}>Submitted</div>

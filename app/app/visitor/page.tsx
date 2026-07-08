@@ -18,7 +18,7 @@ import {
   PermitRequest,
   respondToInfoRequest,
 } from "@/lib/permitStore";
-import { formatRequestWindow } from "@/lib/format";
+import { formatPassValidity } from "@/lib/format";
 import styles from "./visitor.module.css";
 
 export default function VisitorHomePage() {
@@ -126,7 +126,7 @@ export default function VisitorHomePage() {
             passReference={request.id}
             visitorName={request.visitorName}
             visitorPhotoUrl={request.visitorPhotoUrl}
-            approvedWindow={formatRequestWindow(request)}
+            approvedWindow={formatPassValidity(request)}
             status="valid"
           />
         </div>

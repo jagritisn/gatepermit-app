@@ -8,8 +8,8 @@ import { RequestDetailView } from "@/components/RequestDetailView";
 import { DecisionActionBar } from "@/components/DecisionActionBar";
 import { Modal } from "@/components/Modal";
 import { Textarea } from "@/components/Textarea";
-import { decideRequest, getRequestById, PermitRequest } from "@/lib/permitStore";
-import { formatRequestWindow } from "@/lib/format";
+import { decideRequest, getRequestById, PermitRequest, reasonLabel } from "@/lib/permitStore";
+import { formatSubmittedAt } from "@/lib/format";
 import { FileQuestion } from "lucide-react";
 import styles from "./detail.module.css";
 
@@ -73,12 +73,8 @@ export default function OfficerRequestDetailPage() {
       <RequestDetailView
         visitorName={request.visitorName}
         visitorPhotoUrl={request.visitorPhotoUrl}
-        purpose={request.purpose}
-        requestedWindow={formatRequestWindow(request)}
-        submittedAt={new Date(request.submittedAt).toLocaleString(undefined, {
-          dateStyle: "medium",
-          timeStyle: "short",
-        })}
+        reason={reasonLabel(request.reason)}
+        submittedAt={formatSubmittedAt(request)}
         actions={
           <DecisionActionBar
             onApprove={handleApprove}

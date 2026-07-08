@@ -4,8 +4,8 @@ import styles from "./RequestQueueList.module.css";
 export interface QueueRequest {
   id: string;
   visitorName: string;
-  purpose: string;
-  requestedWindow: string;
+  reason: string;
+  submittedAt: string;
 }
 
 interface RequestQueueListProps {
@@ -26,10 +26,10 @@ export function RequestQueueList({ requests, onSelect }: RequestQueueListProps) 
         >
           <div className={styles.itemHeader}>
             <StatusChip status="pending" />
-            <span className={styles.window}>{request.requestedWindow}</span>
+            <span className={styles.window}>{request.submittedAt}</span>
           </div>
           <span className={styles.name}>{request.visitorName}</span>
-          <span className={styles.purpose}>{request.purpose}</span>
+          <span className={styles.purpose}>{request.reason}</span>
         </button>
       ))}
     </div>

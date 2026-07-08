@@ -8,18 +8,23 @@
  * queue and a decision actually updates the visitor's status. Consistent with this
  * project's existing simulated/demo conventions (fixed OTP, simulated identity —
  * see ai/knowledge/domain/).
+ *
+ * Model is WALK-IN: no scheduled date/time. An approved pass is valid for immediate
+ * entry and expires PASS_VALIDITY_MS after approval.
  */
 
 export type RequestStatus = "pending" | "info_requested" | "approved" | "denied" | "expired";
+
+/** How long an approved walk-in pass stays valid (4 hours). */
+export const PASS_VALIDITY_MS = 4 * 60 * 60 * 1000;
 
 export interface PermitRequest {
   id: string;
   visitorPhone: string;
   visitorName: string;
   visitorPhotoUrl: string;
-  purpose: string;
-  requestedDate: string; // yyyy-mm-dd
-  requestedTime: string; // HH:mm
+  /** Reason-for-visit option value (see REASON_OPTIONS) */
+  reason: string;
   submittedAt: string; // ISO
   status: RequestStatus;
   /** Officer's message when requesting more info */
@@ -27,6 +32,26 @@ export interface PermitRequest {
   /** Visitor's reply to an info request */
   visitorResponseMessage?: string;
   decidedAt?: string;
+  /** ISO expiry, set on approval (approvedAt + PASS_VALIDITY_MS) */
+  expiresAt?: string;
+}
+
+export interface ReasonOption {
+  value: string;
+  label: string;
+}
+
+export const REASON_OPTIONS: ReasonOption[] = [
+  { value: "document-renewal", label: "Document renewal" },
+  { value: "appointment", label: "Appointment / meeting" },
+  { value: "hearing", label: "Hearing" },
+  { value: "application", label: "Application submission" },
+  { value: "grievance", label: "Grievance / complaint" },
+  { value: "other", label: "Other" },
+];
+
+export function reasonLabel(value: string): string {
+  return REASON_OPTIONS.find((r) => r.value === value)?.label ?? value;
 }
 
 const REQUESTS_KEY = "entry-permit:requests";
@@ -46,17 +71,15 @@ function writeRequests(requests: PermitRequest[]) {
   window.localStorage.setItem(REQUESTS_KEY, JSON.stringify(requests));
 }
 
-/** Requested date/time in the past while still pending/info_requested -> expired
-    (ai/product/workflows/request-and-approval.md edge cases). Runs on every read so
-    no background timer is needed. */
+/** An approved pass past its expiry becomes expired (ai/product/workflows/request-and-approval.md).
+    Runs on every read so no background timer is needed. */
 function expireStaleRequests(requests: PermitRequest[]): PermitRequest[] {
-  const now = new Date();
+  const now = Date.now();
   let changed = false;
 
   const next = requests.map((request) => {
-    if (request.status !== "pending" && request.status !== "info_requested") return request;
-    const requestedAt = new Date(`${request.requestedDate}T${request.requestedTime}`);
-    if (requestedAt < now) {
+    if (request.status !== "approved" || !request.expiresAt) return request;
+    if (new Date(request.expiresAt).getTime() < now) {
       changed = true;
       return { ...request, status: "expired" as const };
     }
@@ -136,16 +159,21 @@ export function decideRequest(
   infoRequestMessage?: string
 ) {
   const requests = readRequests();
-  const next = requests.map((r) =>
-    r.id === id
-      ? {
-          ...r,
-          status,
-          decidedAt: new Date().toISOString(),
-          infoRequestMessage: status === "info_requested" ? infoRequestMessage : r.infoRequestMessage,
-        }
-      : r
-  );
+  const decidedAt = new Date();
+  const next = requests.map((r) => {
+    if (r.id !== id) return r;
+    return {
+      ...r,
+      status,
+      decidedAt: decidedAt.toISOString(),
+      infoRequestMessage:
+        status === "info_requested" ? infoRequestMessage : r.infoRequestMessage,
+      expiresAt:
+        status === "approved"
+          ? new Date(decidedAt.getTime() + PASS_VALIDITY_MS).toISOString()
+          : r.expiresAt,
+    };
+  });
   writeRequests(next);
 }
 

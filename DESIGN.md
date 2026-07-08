@@ -218,6 +218,12 @@ The outer frame for **authenticated app screens** (visitor home/request, officer
 - **States:** default (`neutral-300` border) → focus (`signal-600` border + focus ring) → filled (unchanged from default, just populated) → disabled (`neutral-100` background, `neutral-400` text, `neutral-200` border) → **error** (border becomes `neutral-900`, 2px instead of 1px; a leading alert-circle icon in `neutral-900` appears; helper text below switches to `neutral-900` — no red, per Shared conventions).
 - **Responsive:** full-width within its container at every breakpoint; only the container's max-width changes (see App Shell).
 
+### Select / Dropdown
+- **Shape:** a native `<select>` restyled to Text Input's language — `rounded.sm`, 1px `neutral-300` border, `neutral-0` background, `label`-token caption above, `body` value text — with a trailing chevron-down icon (`neutral-500`). Native, not a custom listbox: same "don't fight the platform" rationale as the Date/Time Picker (free mobile-optimized picker UX + built-in keyboard/screen-reader support).
+- **Placeholder:** the first option is a disabled, non-selectable prompt (e.g. "Select a reason") shown in `neutral-500` until a real value is chosen.
+- **States:** default → focus (`signal-600` border + focus ring) → disabled (`neutral-100` background, `neutral-400` text) → **error** (2px `neutral-900` border + leading alert-circle icon + `neutral-900` helper text, per Shared conventions — no red).
+- **Responsive:** full-width within its container at every breakpoint.
+
 ### OTP Input
 - **Shape:** six individual boxes (matches the demo's fixed `123456`), each `rounded.sm`, 1px `neutral-300` border, digit rendered at `headline`-token size for legibility, centered.
 - **States:** empty → typing (border shifts to `signal-600` on the active box, auto-advances focus) → complete → **error** (all six boxes' borders shift to `neutral-900`, inline error text below using the icon+neutral pattern, boxes clear for re-entry — no shake/bounce motion per the general motion rules).
@@ -268,6 +274,13 @@ The outer frame for **authenticated app screens** (visitor home/request, officer
 - **States:** empty (centered camera icon + `body` label "Add ID photo") → captured (fills with the preview image, small ghost "Retake" button overlaid, bottom-aligned) → error (same neutral+icon treatment as Text Input error, e.g. "Photo unclear, try again").
 - **Responsive:** full-width within its form container at both breakpoints; the 3:2 ratio is preserved, height adjusts accordingly.
 
+### Live Photo Capture *(Visitor)*
+- **Shape:** the same `rounded.sm`, 3:2 frame as Photo Capture — the live/upload variants are visually interchangeable so a form doesn't shift when it falls back.
+- **Camera:** an in-app live preview via `getUserMedia` (the same API the Gate Security QR Scanner uses), front-facing by default for an ID selfie. A **shutter** button (`signal-600` primary, the deliberate action) captures the current frame to a canvas and freezes it.
+- **States:** requesting-permission → **live preview** (video fills the frame, shutter button below) → **captured** (frozen still + a ghost "Retake" that restarts the stream) → **fallback**. Output is a photo **data URL**.
+- **Fallback:** on permission-denied or no camera (e.g. a desktop without a webcam), it degrades to the file-upload Photo Capture rather than dead-ending — the visitor can still attach an ID photo.
+- **Responsive:** full-width in its form container; 3:2 preserved at both breakpoints. Camera stream is stopped on unmount/retake so the device light doesn't stay on.
+
 ### Reason / Justification Textarea
 - **Shape:** same visual language as Text Input (`rounded.sm`, `neutral-300` border, `signal-600` focus), but multi-line, min-height ≈ 3 lines of `body` text.
 - **Used by:** Approving Officer's "request more info," Gate Security's manual-override reason.
@@ -287,17 +300,17 @@ The outer frame for **authenticated app screens** (visitor home/request, officer
 ---
 
 ### Permit Request Form *(Visitor — composed pattern)*
-Composes: Text Input (purpose), Date/Time Picker, Photo Capture, Primary Button (submit). Single-column, one field group visible at a time on mobile (matches PRODUCT.md's "one task at a time" principle); all fields visible in one column on desktop, still single-column (this form is never worth two columns — it's not a data-dense table).
+The system is **walk-in**: a visitor submits on arrival for immediate entry, so there is no scheduled date/time. Composes three fields only — Text Input (full name), Select (reason for visit), Live Photo Capture (ID selfie) — plus a Primary Button (submit). Single-column, one field group visible at a time on mobile (matches PRODUCT.md's "one task at a time" principle); all fields visible in one column on desktop, still single-column (never worth two columns — it's not a data-dense table).
 
-### Date/Time Picker *(Visitor)*
-Uses native `<input type="date">`/`<input type="time">`, restyled to match Text Input's border/radius/focus tokens rather than a custom-built calendar widget — free mobile-optimized keyboard/picker UX, consistent with "efficient, minimal, don't fight the platform."
+### Date/Time Picker *(Visitor — retained, not used in the walk-in request flow)*
+Uses native `<input type="date">`/`<input type="time">`, restyled to match Text Input's border/radius/focus tokens rather than a custom-built calendar widget — free mobile-optimized keyboard/picker UX, consistent with "efficient, minimal, don't fight the platform." Kept in the library for any future scheduled-visit surface; the current walk-in Permit Request Form does not use it.
 
 ### Request Status Tracker *(Visitor)*
 A single persistent Status Chip + supporting `body` text explaining what happens next, inside a Card. Not a multi-step progress bar — the visitor cares about *current state*, not a step-count.
 
 ### Pass Card *(Visitor — signature component)*
 - **Shape:** `rounded.sm` (an explicit exception to "structural surfaces stay sharp" — this is the one object a visitor physically presents, and a card-like, wallet-pass-like shape is the point), `shadow-hairline` (the pass-display exception named in §4).
-- **Content:** QR code (top), visitor's simulated identity photo + name (`headline`), approved visit window (`body`), single-use Status Chip.
+- **Content:** QR code (top), visitor's simulated identity photo + name (`headline`), pass validity (`body`, e.g. "Valid until 4:30 PM" — walk-in passes expire a few hours after approval), single-use Status Chip.
 - **Critical exception:** the QR code itself renders in true black/`neutral-0` — **never** tinted with `signal` or any ramp step, regardless of how the rest of the card looks. Scanner hardware needs maximum real contrast; brand consistency loses to function here.
 - **Responsive:** fixed aspect ratio, centered, comfortably large on mobile (this is the primary use case — shown at the gate on a phone); doesn't scale beyond a comfortable "held up to a scanner" size even on desktop.
 

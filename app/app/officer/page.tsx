@@ -5,8 +5,8 @@ import { useRouter } from "next/navigation";
 import { Inbox } from "lucide-react";
 import { EmptyState } from "@/components/EmptyState";
 import { RequestQueueList } from "@/components/RequestQueueList";
-import { getQueue } from "@/lib/permitStore";
-import { formatRequestWindow } from "@/lib/format";
+import { getQueue, reasonLabel } from "@/lib/permitStore";
+import { formatSubmittedAt } from "@/lib/format";
 import styles from "./officer.module.css";
 
 export default function OfficerQueuePage() {
@@ -40,8 +40,8 @@ export default function OfficerQueuePage() {
           requests={queue.map((request) => ({
             id: request.id,
             visitorName: request.visitorName,
-            purpose: request.purpose,
-            requestedWindow: formatRequestWindow(request),
+            reason: reasonLabel(request.reason),
+            submittedAt: formatSubmittedAt(request),
           }))}
           onSelect={(id) => router.push(`/officer/${id}`)}
         />

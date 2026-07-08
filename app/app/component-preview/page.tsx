@@ -206,16 +206,15 @@ export default function ComponentPreviewPage() {
         <h2 className={styles.sectionTitle}>Approving Officer</h2>
         <RequestQueueList
           requests={[
-            { id: "1", visitorName: "Priya Sharma", purpose: "Document renewal", requestedWindow: "Today, 2:00 PM" },
-            { id: "2", visitorName: "Arjun Mehta", purpose: "Property tax hearing", requestedWindow: "Tomorrow, 10:00 AM" },
+            { id: "1", visitorName: "Priya Sharma", reason: "Document renewal", submittedAt: "8 Jul, 2:00 PM" },
+            { id: "2", visitorName: "Arjun Mehta", reason: "Hearing", submittedAt: "8 Jul, 10:00 AM" },
           ]}
           onSelect={() => {}}
         />
         <RequestDetailView
           visitorName="Priya Sharma"
           visitorPhotoUrl={PLACEHOLDER_PHOTO}
-          purpose="Document renewal"
-          requestedWindow="Today, 2:00–2:30 PM"
+          reason="Document renewal"
           submittedAt="Yesterday, 6:12 PM"
           actions={
             <DecisionActionBar onApprove={() => {}} onRequestInfo={() => {}} onDeny={() => {}} />
