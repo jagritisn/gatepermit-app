@@ -1,0 +1,18 @@
+/* Sharp corners, shadow-none always — DESIGN.md §6 Card / Container. Never a hover-lift shadow. */
+.card {
+  border-radius: var(--radius-none);
+  box-shadow: var(--shadow-none);
+  background-color: var(--color-neutral-50);
+  padding: var(--spacing-md);
+}
+
+/* Only added where two adjacent cards would otherwise be indistinguishable */
+.bordered {
+  border: 1px solid var(--color-neutral-200);
+}
+
+@media (min-width: 768px) {
+  .card {
+    padding: var(--spacing-lg);
+  }
+}

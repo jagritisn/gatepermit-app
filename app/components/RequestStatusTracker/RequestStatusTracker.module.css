@@ -1,0 +1,15 @@
+/* A single persistent status + next-step copy, not a multi-step progress bar — DESIGN.md §6 */
+.tracker {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.message {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-body);
+  line-height: var(--line-height-body);
+  color: var(--color-neutral-700);
+  max-width: var(--body-max-width);
+}

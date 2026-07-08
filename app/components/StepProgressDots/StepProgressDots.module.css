@@ -1,0 +1,18 @@
+/* Status indicator, not interactive — DESIGN.md §6 Step Progress Dots (Onboarding) */
+.dots {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-xs);
+}
+
+.dot {
+  width: var(--spacing-sm);
+  height: var(--spacing-sm);
+  border-radius: var(--radius-full); /* pill/full radius — the documented exception for progress dots */
+  background-color: var(--color-neutral-300);
+  transition: background-color var(--duration-interaction) var(--ease-standard);
+}
+
+.active {
+  background-color: var(--color-signal-600);
+}

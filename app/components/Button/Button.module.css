@@ -1,0 +1,98 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  min-height: var(--touch-target-min);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-emphasis);
+  line-height: var(--line-height-body);
+  cursor: pointer;
+  transition: background-color var(--duration-interaction) var(--ease-standard),
+    border-color var(--duration-interaction) var(--ease-standard),
+    color var(--duration-interaction) var(--ease-standard);
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  transition: none;
+}
+
+/* Primary — signal-600 fill, the only button that carries the signal ramp's action color */
+.primary {
+  background-color: var(--color-signal-600);
+  color: var(--color-neutral-0);
+}
+
+.primary:hover:not(:disabled) {
+  background-color: var(--color-signal-700);
+}
+
+.primary:active:not(:disabled) {
+  background-color: var(--color-signal-800);
+}
+
+.primary:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color-on-signal);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.primary:disabled {
+  background-color: var(--color-neutral-200);
+  color: var(--color-neutral-400);
+}
+
+/* Secondary — ghost, signal-600 text/border */
+.secondary {
+  background-color: transparent;
+  color: var(--color-signal-600);
+  border-color: var(--color-signal-600);
+}
+
+.secondary:hover:not(:disabled) {
+  background-color: var(--color-signal-50);
+}
+
+.secondary:active:not(:disabled) {
+  background-color: var(--color-signal-100);
+}
+
+.secondary:disabled {
+  color: var(--color-neutral-400);
+  border-color: var(--color-neutral-200);
+}
+
+/* Tertiary — deliberately quieter than Primary/Secondary (e.g. "Deny"); never a red destructive style */
+.tertiary {
+  background-color: transparent;
+  color: var(--color-neutral-700);
+  border-color: var(--color-neutral-300);
+}
+
+.tertiary:hover:not(:disabled) {
+  background-color: var(--color-neutral-100);
+}
+
+.tertiary:active:not(:disabled) {
+  background-color: var(--color-neutral-200);
+}
+
+.tertiary:disabled {
+  color: var(--color-neutral-400);
+  border-color: var(--color-neutral-200);
+}
+
+/* Mobile-first: primary actions are full-width under 768px (DESIGN.md §6 Buttons > Responsive) */
+.fullWidthMobile {
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .fullWidthMobile {
+    width: auto;
+  }
+}

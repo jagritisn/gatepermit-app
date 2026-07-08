@@ -1,0 +1,90 @@
+/* Near-full-viewport, DESIGN.md §6 Verification Result Panel — readable at a glance regardless of device. */
+.panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-md);
+  min-height: 80vh;
+  padding: var(--spacing-xl);
+  text-align: center;
+}
+
+/* Compact — for embedding in an onboarding walkthrough, not a real gate result.
+   Same colors/icons/structure, just not a viewport takeover. */
+.compact {
+  min-height: 0;
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-sm);
+}
+
+.compact .validIcon,
+.compact .invalidIcon {
+  width: var(--icon-size-default);
+  height: var(--icon-size-default);
+}
+
+.compact .reason {
+  font-size: var(--font-size-headline);
+  font-weight: var(--font-weight-headline);
+  line-height: var(--line-height-headline);
+  letter-spacing: normal;
+}
+
+.compact .photo {
+  width: 64px;
+  height: 64px;
+}
+
+/* Valid — the "approved/passing state" exception to the Restrained Signal Rule */
+.valid {
+  background-color: var(--color-signal-50);
+}
+
+.validIcon {
+  width: 96px;
+  height: 96px;
+  color: var(--color-signal-800);
+}
+
+/* Invalid — deliberately the heaviest, highest-contrast treatment in the system.
+   Never mistaken for "still loading" or "valid" — safety-critical. */
+.invalid {
+  background-color: var(--color-neutral-900);
+  color: var(--color-neutral-0);
+}
+
+.invalidIcon {
+  width: 96px;
+  height: 96px;
+  color: var(--color-neutral-0);
+}
+
+.photo {
+  width: 96px;
+  height: 96px;
+  border-radius: var(--radius-sm);
+  object-fit: cover;
+}
+
+.name {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-headline);
+  font-weight: var(--font-weight-headline);
+  line-height: var(--line-height-headline);
+}
+
+.window {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-body);
+  line-height: var(--line-height-body);
+}
+
+.reason {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-display);
+  font-weight: var(--font-weight-display);
+  line-height: var(--line-height-display);
+  letter-spacing: var(--letter-spacing-display);
+}

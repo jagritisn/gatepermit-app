@@ -1,0 +1,78 @@
+/* Dev-only gallery layout — not a product screen, so this doesn't go through the design-system
+   gates itself; it only arranges already-approved components/tokens for visual review. */
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3xl);
+  padding: var(--spacing-lg);
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.pageTitle {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-display);
+  font-weight: var(--font-weight-display);
+  line-height: var(--line-height-display);
+  letter-spacing: var(--letter-spacing-display);
+  color: var(--color-neutral-900);
+}
+
+.pageSubtitle {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-body);
+  color: var(--color-neutral-600);
+  margin-top: var(--spacing-xs);
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.sectionTitle {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-headline);
+  font-weight: var(--font-weight-headline);
+  line-height: var(--line-height-headline);
+  color: var(--color-neutral-900);
+  border-bottom: 1px solid var(--color-neutral-200);
+  padding-bottom: var(--spacing-sm);
+}
+
+.componentBlock {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.componentLabel {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-label);
+  color: var(--color-neutral-500);
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  max-width: 400px;
+}
+
+.frame {
+  border: 1px solid var(--color-neutral-200);
+  overflow: hidden;
+}
+
+.scannerFrame {
+  max-width: 320px;
+}

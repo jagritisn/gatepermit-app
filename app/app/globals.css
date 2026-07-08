@@ -1,12 +1,101 @@
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Colors — signal ramp (DESIGN.md §2). Reserved for primary actions and the approved/pass state. */
+  --color-signal-50: oklch(97% 0.02 200);
+  --color-signal-100: oklch(93% 0.035 200);
+  --color-signal-200: oklch(86% 0.05 200);
+  --color-signal-300: oklch(76% 0.07 200);
+  --color-signal-400: oklch(66% 0.09 200);
+  --color-signal-500: oklch(55% 0.11 200);
+  --color-signal-600: oklch(46% 0.1 200);
+  --color-signal-700: oklch(38% 0.085 200);
+  --color-signal-800: oklch(30% 0.065 200);
+  --color-signal-900: oklch(22% 0.045 200);
+
+  /* Colors — neutral ramp (DESIGN.md §2). Background, text, borders. */
+  --color-neutral-0: oklch(98% 0.003 220);
+  --color-neutral-50: oklch(96% 0.004 220);
+  --color-neutral-100: oklch(93% 0.005 220);
+  --color-neutral-200: oklch(88% 0.006 220);
+  --color-neutral-300: oklch(78% 0.007 220);
+  --color-neutral-400: oklch(64% 0.008 220);
+  --color-neutral-500: oklch(50% 0.008 220);
+  --color-neutral-600: oklch(38% 0.007 220);
+  --color-neutral-700: oklch(28% 0.006 220);
+  --color-neutral-800: oklch(18% 0.005 220);
+  --color-neutral-900: oklch(12% 0.004 220);
+
+  /* Typography (DESIGN.md §3). Manrope end-to-end — The One Voice Rule. */
+  --font-family-base: var(--font-manrope), "Helvetica Neue", Arial, sans-serif;
+
+  --font-size-display: clamp(1.75rem, 4vw, 2.5rem);
+  --font-weight-display: 700;
+  --line-height-display: 1.15;
+  --letter-spacing-display: -0.01em;
+
+  --font-size-headline: 1.5rem;
+  --font-weight-headline: 600;
+  --line-height-headline: 1.25;
+
+  --font-size-title: 1.125rem;
+  --font-weight-title: 600;
+  --line-height-title: 1.35;
+
+  --font-size-body: 1rem;
+  --font-weight-body: 400;
+  --line-height-body: 1.5;
+  --body-max-width: 75ch;
+
+  --font-size-label: 0.8125rem;
+  --font-weight-label: 500;
+  --line-height-label: 1.4;
+  --letter-spacing-label: 0.01em;
+
+  /* Component-level weight step, not a new typeface (still Manrope) — see Buttons, DESIGN.md §6 */
+  --font-weight-emphasis: 600;
+
+  /* Radius (DESIGN.md §6 Shared conventions). Structural surfaces stay sharp; controls get a small radius. */
+  --radius-none: 0px;
+  --radius-sm: 6px;
+  --radius-full: 9999px; /* pill/circular only (e.g. progress dots) — not a softer control radius */
+
+  /* Spacing (DESIGN.md §5). One 8px-rooted scale for every gap, padding, and margin. */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+  --spacing-3xl: 64px;
+  --touch-target-min: 44px;
+
+  /* Elevation (DESIGN.md §4). Exactly two states — nothing else. */
+  --shadow-none: none;
+  --shadow-hairline: 0 1px 2px oklch(0% 0 0 / 0.06);
+
+  /* Motion (DESIGN.md §6 Shared conventions). */
+  --duration-interaction: 140ms;
+  --ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-skeleton-pulse: 1.2s;
+
+  /* Focus ring (DESIGN.md §6 Shared conventions). Never removed. */
+  --focus-ring-color: var(--color-signal-600);
+  --focus-ring-color-on-signal: var(--color-signal-900);
+  --focus-ring-width: 2px;
+  --focus-ring-offset: 2px;
+
+  /* Icon sizes (DESIGN.md §6 Shared conventions) — reuse the spacing scale, no new number system. */
+  --icon-size-compact: var(--spacing-md); /* 16px */
+  --icon-size-default: var(--spacing-lg); /* 24px */
 }
 
-@media (prefers-color-scheme: dark) {
+/* Breakpoint reference: 768px (DESIGN.md §6 Shared conventions).
+   CSS custom properties can't be used inside @media conditions, so every
+   component's media query must hardcode 768px directly — keep it in sync with this value. */
+
+@media (prefers-reduced-motion: reduce) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --duration-interaction: 0ms;
+    --duration-skeleton-pulse: 0ms;
   }
 }
 
@@ -24,9 +113,12 @@ body {
   min-height: 100%;
   display: flex;
   flex-direction: column;
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--color-neutral-900);
+  background: var(--color-neutral-0);
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-body);
+  line-height: var(--line-height-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -42,8 +134,8 @@ a {
   text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+/* Every interactive element gets a visible focus state — DESIGN.md §6, never removed. */
+:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
 }

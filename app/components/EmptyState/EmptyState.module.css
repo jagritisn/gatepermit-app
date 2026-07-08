@@ -1,0 +1,39 @@
+/* No container/card — sits directly on the page background, DESIGN.md §6 Empty State */
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-xl) var(--spacing-md);
+  min-height: 100%;
+}
+
+.icon {
+  width: var(--icon-size-default);
+  height: var(--icon-size-default);
+  color: var(--color-neutral-400);
+  margin-bottom: var(--spacing-sm);
+}
+
+.title {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-headline);
+  font-weight: var(--font-weight-headline);
+  line-height: var(--line-height-headline);
+  color: var(--color-neutral-900);
+}
+
+.description {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-body);
+  line-height: var(--line-height-body);
+  color: var(--color-neutral-600);
+  max-width: var(--body-max-width);
+}
+
+.action {
+  margin-top: var(--spacing-sm);
+}

@@ -1,0 +1,102 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: oklch(12% 0.004 220 / 0.5); /* neutral-900 scrim, no blur — glassmorphism is a hard ban */
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 100;
+  animation: fadeIn var(--duration-interaction) var(--ease-standard);
+}
+
+.panel {
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  background-color: var(--color-neutral-0);
+  border-radius: var(--radius-none);
+  box-shadow: var(--shadow-hairline);
+  padding: var(--spacing-lg);
+  animation: slideUp var(--duration-interaction) var(--ease-standard);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+}
+
+.title {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-headline);
+  font-weight: var(--font-weight-headline);
+  line-height: var(--line-height-headline);
+  color: var(--color-neutral-900);
+}
+
+.closeButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--touch-target-min);
+  height: var(--touch-target-min);
+  border-radius: var(--radius-sm);
+  border: none;
+  background: transparent;
+  color: var(--color-neutral-700);
+  cursor: pointer;
+  transition: background-color var(--duration-interaction) var(--ease-standard);
+}
+
+.closeButton:hover {
+  background-color: var(--color-neutral-100);
+}
+
+.body {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-body);
+  line-height: var(--line-height-body);
+  color: var(--color-neutral-900);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(var(--spacing-lg));
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .backdrop,
+  .panel {
+    animation: none;
+  }
+}
+
+/* Full-screen bottom sheet on mobile, centered fixed-width panel on desktop — DESIGN.md §6 Modal > Responsive */
+@media (min-width: 768px) {
+  .backdrop {
+    align-items: center;
+  }
+
+  .panel {
+    width: 480px;
+    max-height: 80vh;
+  }
+}

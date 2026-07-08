@@ -1,0 +1,22 @@
+/* Ambient ~1.2s pulse loop, separate from the 140ms interaction timing — DESIGN.md §6 Loading/Skeleton */
+.skeleton {
+  border-radius: var(--radius-sm);
+  background-color: var(--color-neutral-100);
+  animation: pulse var(--duration-skeleton-pulse) ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    background-color: var(--color-neutral-100);
+  }
+  50% {
+    background-color: var(--color-neutral-200);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton {
+    animation: none;
+  }
+}

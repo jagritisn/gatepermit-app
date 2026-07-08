@@ -1,0 +1,70 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  width: 100%;
+}
+
+.label {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-label);
+  line-height: var(--line-height-label);
+  letter-spacing: var(--letter-spacing-label);
+  color: var(--color-neutral-700);
+}
+
+.input {
+  width: 100%;
+  min-height: var(--touch-target-min);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-neutral-300);
+  background-color: var(--color-neutral-0);
+  color: var(--color-neutral-900);
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-body);
+  line-height: var(--line-height-body);
+  transition: border-color var(--duration-interaction) var(--ease-standard);
+}
+
+.input::placeholder {
+  color: var(--color-neutral-500);
+}
+
+.input:focus-visible {
+  border-color: var(--color-signal-600);
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.input:disabled {
+  background-color: var(--color-neutral-100);
+  border-color: var(--color-neutral-200);
+  color: var(--color-neutral-400);
+  cursor: not-allowed;
+}
+
+/* Error state uses weight + border thickness + an icon — never a red, per DESIGN.md §6 The Icon-Text Rule */
+.inputError {
+  border-width: 2px;
+  border-color: var(--color-neutral-900);
+}
+
+.errorMessage {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-label);
+  line-height: var(--line-height-label);
+  color: var(--color-neutral-900);
+}
+
+.errorIcon {
+  flex-shrink: 0;
+  width: var(--icon-size-compact);
+  height: var(--icon-size-compact);
+}

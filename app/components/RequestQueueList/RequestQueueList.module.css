@@ -1,0 +1,59 @@
+/* Flat list, hairline-divided — not a card grid, DESIGN.md §6 Request Queue List + List Item */
+.list {
+  display: flex;
+  flex-direction: column;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  width: 100%;
+  padding: var(--spacing-md) 0;
+  border-bottom: 1px solid var(--color-neutral-200);
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color var(--duration-interaction) var(--ease-standard);
+}
+
+.item:hover {
+  background-color: var(--color-neutral-50);
+}
+
+.itemHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+}
+
+.name {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-emphasis);
+  line-height: var(--line-height-body);
+  color: var(--color-neutral-900);
+}
+
+.purpose {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-body);
+  line-height: var(--line-height-body);
+  color: var(--color-neutral-600);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.window {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-label);
+  line-height: var(--line-height-label);
+  color: var(--color-neutral-500);
+}

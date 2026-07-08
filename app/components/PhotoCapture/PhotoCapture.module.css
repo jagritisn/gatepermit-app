@@ -1,0 +1,82 @@
+/* ID-card aspect ratio, not dashed — stays minimal, DESIGN.md §6 Photo Capture / Upload */
+.dropzone {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-neutral-300);
+  background-color: var(--color-neutral-50);
+  color: var(--color-neutral-700);
+  cursor: pointer;
+  overflow: hidden;
+  transition: border-color var(--duration-interaction) var(--ease-standard);
+}
+
+.dropzone:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.dropzoneError {
+  border-width: 2px;
+  border-color: var(--color-neutral-900);
+}
+
+.icon {
+  width: var(--icon-size-default);
+  height: var(--icon-size-default);
+}
+
+.label {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-body);
+  line-height: var(--line-height-body);
+}
+
+.hiddenInput {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.preview {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.retakeButton {
+  position: absolute;
+  bottom: var(--spacing-sm);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.errorMessage {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  margin-top: var(--spacing-xs);
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-label);
+  line-height: var(--line-height-label);
+  color: var(--color-neutral-900);
+}
+
+.errorIcon {
+  flex-shrink: 0;
+  width: var(--icon-size-compact);
+  height: var(--icon-size-compact);
+}

@@ -1,0 +1,32 @@
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-label);
+  line-height: var(--line-height-label);
+  letter-spacing: var(--letter-spacing-label);
+  white-space: nowrap;
+}
+
+.icon {
+  flex-shrink: 0;
+  width: var(--icon-size-compact);
+  height: var(--icon-size-compact);
+}
+
+/* Only two color treatments exist — DESIGN.md §6 Status Chip / Badge, The Restrained Signal Rule.
+   approved/valid earn signal; every other status (pending/denied/expired/invalid/used) stays neutral
+   and is told apart by icon + label only. */
+.signal {
+  background-color: var(--color-signal-50);
+  color: var(--color-signal-800);
+}
+
+.neutral {
+  background-color: var(--color-neutral-100);
+  color: var(--color-neutral-700);
+}

@@ -1,0 +1,37 @@
+/* Route-local teaching content (the two-step journey list) — page composition using tokens,
+   per ai/product/workflows/onboarding-visitor.md. */
+.journey {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  text-align: left;
+}
+
+.journeyItem {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.journeyNumber {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--spacing-xl);
+  height: var(--spacing-xl);
+  border-radius: var(--radius-full);
+  background-color: var(--color-signal-50);
+  color: var(--color-signal-800);
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-title);
+  font-weight: var(--font-weight-title);
+}
+
+.journeyText {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-body);
+  line-height: var(--line-height-body);
+  color: var(--color-neutral-900);
+}

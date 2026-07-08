@@ -1,0 +1,87 @@
+.wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+/* Ghost-button styling, DESIGN.md §6 Language Switcher */
+.trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  min-height: var(--touch-target-min);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--color-signal-600);
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-label);
+  cursor: pointer;
+  transition: background-color var(--duration-interaction) var(--ease-standard);
+}
+
+.trigger:hover {
+  background-color: var(--color-signal-50);
+}
+
+/* Mobile: bottom sheet, consistent with Modal's mobile treatment */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: oklch(12% 0.004 220 / 0.5);
+  z-index: 100;
+}
+
+.list {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--color-neutral-0);
+  border-radius: var(--radius-none);
+  box-shadow: var(--shadow-hairline);
+  padding: var(--spacing-sm) 0;
+  z-index: 101;
+}
+
+.option {
+  display: flex;
+  width: 100%;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: none;
+  border-bottom: 1px solid var(--color-neutral-200);
+  background-color: var(--color-neutral-0);
+  color: var(--color-neutral-900);
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-body);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color var(--duration-interaction) var(--ease-standard);
+}
+
+.option:last-child {
+  border-bottom: none;
+}
+
+.option:hover {
+  background-color: var(--color-signal-50);
+}
+
+/* Desktop: small anchored popover below the trigger, not a full sheet */
+@media (min-width: 768px) {
+  .backdrop {
+    background: transparent;
+  }
+
+  .list {
+    position: absolute;
+    left: 0;
+    right: auto;
+    bottom: auto;
+    top: calc(100% + var(--spacing-xs));
+    width: 160px;
+    border-radius: var(--radius-sm);
+  }
+}

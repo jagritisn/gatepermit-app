@@ -1,0 +1,81 @@
+/* Composed onboarding layout — plain sequential explainer screen, not a live-UI product tour
+   (per ai/product/workflows/onboarding-*.md design note). Uses only existing tokens plus
+   StepProgressDots + Button. */
+.screen {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: var(--spacing-lg);
+}
+
+.skipRow {
+  display: flex;
+  justify-content: flex-end;
+  min-height: var(--touch-target-min);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  gap: var(--spacing-md);
+  text-align: center;
+}
+
+.icon {
+  width: var(--icon-size-default);
+  height: var(--icon-size-default);
+  color: var(--color-neutral-700);
+}
+
+.title {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-display);
+  font-weight: var(--font-weight-display);
+  line-height: var(--line-height-display);
+  letter-spacing: var(--letter-spacing-display);
+  color: var(--color-neutral-900);
+  text-wrap: balance;
+}
+
+.body {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-body);
+  line-height: var(--line-height-body);
+  color: var(--color-neutral-700);
+  max-width: var(--body-max-width);
+  text-wrap: pretty;
+}
+
+/* Optional custom slot (journey list, embedded result panels, etc.) */
+.custom {
+  width: 100%;
+  margin-top: var(--spacing-sm);
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+  padding-top: var(--spacing-lg);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+/* Back sits left; primary action fills the rest of the row */
+.backSlot {
+  flex-shrink: 0;
+}
+
+.nextSlot {
+  flex: 1;
+}

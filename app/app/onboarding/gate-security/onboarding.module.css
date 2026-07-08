@@ -1,0 +1,23 @@
+/* Route-local layout for the result-reading walkthrough: the two real result states shown
+   compactly in sequence so the signal-wash vs neutral-900 contrast is learned before the gate.
+   Per ai/product/workflows/onboarding-gate-security.md. */
+.results {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.result {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.caption {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-emphasis);
+  line-height: var(--line-height-label);
+  letter-spacing: var(--letter-spacing-label);
+  color: var(--color-neutral-700);
+}

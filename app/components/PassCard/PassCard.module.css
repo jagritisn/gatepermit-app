@@ -1,0 +1,50 @@
+/* Explicit exception to "structural surfaces stay sharp" — DESIGN.md §6 Pass Card (signature component) */
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-md);
+  max-width: 320px;
+  margin: 0 auto;
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-hairline);
+  background-color: var(--color-neutral-0);
+}
+
+.qr {
+  padding: var(--spacing-sm);
+  background-color: var(--color-neutral-0);
+}
+
+.identity {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  width: 100%;
+}
+
+.photo {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-sm);
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.name {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-headline);
+  font-weight: var(--font-weight-headline);
+  line-height: var(--line-height-headline);
+  color: var(--color-neutral-900);
+}
+
+.window {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-body);
+  line-height: var(--line-height-body);
+  color: var(--color-neutral-700);
+  text-align: center;
+}
