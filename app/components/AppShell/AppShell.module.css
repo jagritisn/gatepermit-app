@@ -1,0 +1,365 @@
+.shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+
+/* Sticky flat header — separated by a hairline border, never a shadow (Flat Header Rule) */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-neutral-0);
+  border-bottom: 1px solid var(--color-neutral-200);
+  padding: var(--spacing-sm) var(--spacing-md);
+  padding-top: max(var(--spacing-sm), env(safe-area-inset-top));
+  gap: var(--spacing-sm);
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  min-height: var(--touch-target-min);
+}
+
+.leftCluster {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  flex-shrink: 0;
+}
+
+.wordmark {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-title);
+  font-weight: var(--font-weight-title);
+  line-height: var(--line-height-title);
+  color: var(--color-neutral-900);
+  white-space: nowrap;
+}
+
+/* Search sits inline on desktop only; on mobile it reflows to its own row below the bar */
+.searchInline {
+  display: none;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.rightCluster {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  flex-shrink: 0;
+}
+
+/* Ghost icon button shared by back + notification */
+.iconButton {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--touch-target-min);
+  height: var(--touch-target-min);
+  border: none;
+  background: transparent;
+  border-radius: var(--radius-sm);
+  color: var(--color-neutral-700);
+  cursor: pointer;
+  transition: background-color var(--duration-interaction) var(--ease-standard);
+}
+
+.iconButton:hover {
+  background-color: var(--color-neutral-100);
+}
+
+.iconButton:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.icon {
+  width: var(--icon-size-default);
+  height: var(--icon-size-default);
+}
+
+/* Notification unread badge — neutral-900, never signal (kept off the reserved ramp) */
+.badge {
+  position: absolute;
+  top: var(--spacing-xs);
+  right: var(--spacing-xs);
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-full);
+  background-color: var(--color-neutral-900);
+  color: var(--color-neutral-0);
+  font-family: var(--font-family-base);
+  font-size: 0.6875rem;
+  font-weight: var(--font-weight-emphasis);
+  line-height: 1;
+}
+
+/* Search field — reuses Text Input's border/radius/focus language, icon-leading, label hidden */
+.searchField {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  width: 100%;
+  min-height: var(--touch-target-min);
+  padding: 0 var(--spacing-md);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-neutral-300);
+  background-color: var(--color-neutral-0);
+  transition: border-color var(--duration-interaction) var(--ease-standard);
+}
+
+.searchField:focus-within {
+  border-color: var(--color-signal-600);
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.searchIcon {
+  flex-shrink: 0;
+  width: var(--icon-size-compact);
+  height: var(--icon-size-compact);
+  color: var(--color-neutral-500);
+}
+
+.searchInput {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  color: var(--color-neutral-900);
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+}
+
+.searchInput:focus {
+  outline: none;
+}
+
+.searchInput::placeholder {
+  color: var(--color-neutral-500);
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Profile trigger — avatar (always) + name (desktop only) */
+.profileTrigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  min-height: var(--touch-target-min);
+  padding: var(--spacing-xs);
+  border: none;
+  background: transparent;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background-color var(--duration-interaction) var(--ease-standard);
+}
+
+.profileTrigger:hover {
+  background-color: var(--color-neutral-100);
+}
+
+.profileTrigger:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--spacing-xl);
+  height: var(--spacing-xl);
+  flex-shrink: 0;
+  border-radius: var(--radius-full);
+  background-color: var(--color-neutral-200);
+  color: var(--color-neutral-700);
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-emphasis);
+  line-height: 1;
+}
+
+.profileName {
+  display: none;
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-label);
+  color: var(--color-neutral-900);
+  white-space: nowrap;
+}
+
+/* Menu (profile) — bottom sheet on mobile, anchored dropdown on desktop */
+.menuBackdrop {
+  position: fixed;
+  inset: 0;
+  background-color: oklch(12% 0.004 220 / 0.5);
+  z-index: 100;
+}
+
+.menu {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 101;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-neutral-0);
+  box-shadow: var(--shadow-hairline);
+  padding: var(--spacing-sm) 0;
+  padding-bottom: max(var(--spacing-sm), env(safe-area-inset-bottom));
+}
+
+.menuIdentity {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--spacing-sm) var(--spacing-md) var(--spacing-md);
+  border-bottom: 1px solid var(--color-neutral-200);
+}
+
+.menuName {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-emphasis);
+  color: var(--color-neutral-900);
+}
+
+.menuSecondary {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-label);
+  color: var(--color-neutral-500);
+}
+
+.menuSectionLabel {
+  padding: var(--spacing-sm) var(--spacing-md) var(--spacing-xs);
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-label);
+  color: var(--color-neutral-500);
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  width: 100%;
+  min-height: var(--touch-target-min);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: none;
+  background: transparent;
+  color: var(--color-neutral-900);
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-body);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color var(--duration-interaction) var(--ease-standard);
+}
+
+.menuItem:hover {
+  background-color: var(--color-signal-50);
+}
+
+.menuItem:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: calc(-1 * var(--focus-ring-width));
+}
+
+.menuItemSelected {
+  font-weight: var(--font-weight-emphasis);
+}
+
+.menuItemIcon {
+  flex-shrink: 0;
+  width: var(--icon-size-compact);
+  height: var(--icon-size-compact);
+  color: var(--color-neutral-500);
+}
+
+.menuDivider {
+  height: 1px;
+  margin: var(--spacing-xs) 0;
+  background-color: var(--color-neutral-200);
+}
+
+/* Main content region */
+.main {
+  flex: 1;
+  width: 100%;
+  margin: 0 auto;
+  padding: var(--spacing-lg);
+  padding-left: max(var(--spacing-lg), env(safe-area-inset-left));
+  padding-right: max(var(--spacing-lg), env(safe-area-inset-right));
+  padding-bottom: max(var(--spacing-lg), env(safe-area-inset-bottom));
+}
+
+.narrow {
+  max-width: 480px;
+}
+
+.wide {
+  max-width: 640px;
+}
+
+@media (min-width: 768px) {
+  .header {
+    padding-left: var(--spacing-lg);
+    padding-right: var(--spacing-lg);
+  }
+
+  /* Search moves inline into the bar; the standalone mobile row is hidden */
+  .searchInline {
+    display: flex;
+    flex: 1;
+    max-width: 360px;
+  }
+
+  .searchRow {
+    display: none;
+  }
+
+  .profileName {
+    display: inline;
+  }
+
+  .menuBackdrop {
+    background: transparent;
+  }
+
+  .menu {
+    position: absolute;
+    left: auto;
+    right: var(--spacing-lg);
+    bottom: auto;
+    top: calc(100% + var(--spacing-xs));
+    width: 260px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-neutral-200);
+    padding-bottom: var(--spacing-sm);
+  }
+}

@@ -182,6 +182,29 @@ Excludes Facility Admin components — those aren't specified yet.
 
 ---
 
+### App Shell *(foundational frame)*
+The outer frame for **authenticated app screens** (visitor home/request, officer queue/detail). Login and onboarding are deliberately chrome-less full-bleed focus screens and do **not** use it. Replaces the per-page `.screen` wrapper (max-width + padding + min-height) that route CSS would otherwise duplicate.
+
+- **Structure:** a sticky top bar over a centered, width-constrained main region. Shell is a `min-height: 100dvh` flex column; the header is `position: sticky; top: 0`; main is `flex: 1`.
+- **Header:** `neutral-0` background, 1px `neutral-200` bottom border, `shadow-none` (flat, per §4 — the border does the separation, not a shadow). Clears the 44px touch-target floor. Contents, left to right:
+  - **Back** (optional): a ghost icon button (chevron-left, `neutral-700`) shown only on drill-in screens (e.g. officer request detail → queue); omitted on top-level screens.
+  - **Logo / wordmark:** "Entry Permit" in the `title` token, `neutral-900`.
+  - **Search** (opt-in per screen): a compact leading-icon input reusing Text Input's border/radius/focus tokens, with an accessible label. Present only on list/queue screens (officer queue); the visitor's linear one-task screens omit it, per PRODUCT.md's "one task at a time."
+  - **Notification button:** ghost icon button (bell). Optional unread **count badge** — a small `neutral-900` circle (`rounded.full`) with `neutral-0` label text, top-right of the bell. Presentational: driven by a count + onClick, not a built-in notification system.
+  - **Profile card:** an initials **avatar** (`neutral-200` fill, `neutral-700` initials, `rounded.full`) plus the user's name (`label` token) on desktop. Opens a menu holding the user's identity, language options, and **Sign out** — this is where the language switcher and session control live.
+- **Main:** centered column, horizontal padding `spacing.lg`, respects mobile safe-area insets, min-height fills the viewport below the header. Content width via a `size` prop — `narrow` (≈480px, visitor flows) or `wide` (≈640px, officer). Full-width under 768px; constrained + centered at ≥768px.
+- **Responsive (mobile-first):** under 768px the top bar is a single row of `[Back?] [Logo] … [Notification] [Avatar]` — the profile collapses to **avatar only** (name hidden) and, when search is enabled, the **search field reflows to its own full-width row** beneath the bar. At ≥768px everything sits in one row with search inline (flex-grow, capped ~360px) and the profile showing avatar + name.
+- **Profile / notification menus:** bottom sheet on mobile, anchored dropdown on desktop (same treatment as Modal and Language Switcher). Light-dismiss (backdrop click), Escape closes.
+
+### Named Rules
+**The Chrome-Is-Optional Rule.** Every header element beyond the logo is an opt-in slot (back, search, notifications, profile). A screen shows only what its task needs — the shell never forces search or a full profile onto a screen that doesn't use them. This keeps "one task at a time" intact even with a capable header.
+
+**The Flat Header Rule.** The header separates from content with a 1px `neutral-200` border, never a shadow — consistent with §4's near-zero elevation. It does not gain elevation on scroll.
+
+*Informal z-index ladder (until a formal scale is documented): header `40` < fallback banner `50` < modal/menu `100` < toast `200`.*
+
+---
+
 ### Buttons
 - **Shape:** `rounded.sm`. Label text: `body` size/weight, bumped to 600 weight for emphasis (a weight step within Manrope, not a new typeface — consistent with The One Voice Rule).
 - **Primary:** `signal-600` fill, `neutral-0` text. Padding from the spacing scale, sized to clear the 44px Touch Target Floor (§5) regardless of label length.
