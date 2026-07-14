@@ -2,10 +2,15 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { AppShell } from "@/components/AppShell";
 import { PermitRequestForm, PermitRequestFormValues } from "@/components/PermitRequestForm";
 import { Toast } from "@/components/Toast";
-import { createRequest, getActiveRequestForVisitor, getSession } from "@/lib/permitStore";
-import styles from "./request.module.css";
+import {
+  clearSession,
+  createRequest,
+  getActiveRequestForVisitor,
+  getSession,
+} from "@/lib/permitStore";
 
 export default function VisitorRequestPage() {
   const router = useRouter();
@@ -47,14 +52,24 @@ export default function VisitorRequestPage() {
     router.push("/visitor");
   };
 
+  const handleSignOut = () => {
+    clearSession();
+    router.replace("/visitor/login");
+  };
+
   if (!phone) return null;
 
   return (
-    <div className={styles.screen}>
+    <AppShell
+      size="narrow"
+      user={{ name: "Visitor", secondary: phone }}
+      onBack={() => router.push("/visitor")}
+      onSignOut={handleSignOut}
+    >
       <PermitRequestForm onSubmit={handleSubmit} />
       {formError ? (
         <Toast variant="neutral" message={formError} onDismiss={() => setFormError(undefined)} />
       ) : null}
-    </div>
+    </AppShell>
   );
 }

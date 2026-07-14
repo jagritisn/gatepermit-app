@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Inbox } from "lucide-react";
+import { Inbox, SearchX } from "lucide-react";
+import { AppShell } from "@/components/AppShell";
 import { EmptyState } from "@/components/EmptyState";
 import { RequestQueueList } from "@/components/RequestQueueList";
 import { getQueue, reasonLabel } from "@/lib/permitStore";
@@ -13,6 +14,7 @@ export default function OfficerQueuePage() {
   const router = useRouter();
   const [loaded, setLoaded] = useState(false);
   const [queue, setQueue] = useState<ReturnType<typeof getQueue>>([]);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     // localStorage doesn't exist during SSR — hydrate post-mount. See the note in
@@ -22,10 +24,28 @@ export default function OfficerQueuePage() {
     setLoaded(true);
   }, []);
 
+  const filtered = useMemo(() => {
+    const q = search.trim().toLowerCase();
+    if (!q) return queue;
+    return queue.filter(
+      (r) =>
+        r.visitorName.toLowerCase().includes(q) ||
+        reasonLabel(r.reason).toLowerCase().includes(q)
+    );
+  }, [queue, search]);
+
   if (!loaded) return null;
 
   return (
-    <div className={styles.screen}>
+    <AppShell
+      size="wide"
+      search={{
+        value: search,
+        onChange: setSearch,
+        placeholder: "Search by name or reason",
+        label: "Search requests",
+      }}
+    >
       <h1 className={styles.header}>Permit requests</h1>
       {queue.length === 0 ? (
         <div className={styles.centered}>
@@ -35,9 +55,17 @@ export default function OfficerQueuePage() {
             description="New permit requests will appear here as visitors submit them."
           />
         </div>
+      ) : filtered.length === 0 ? (
+        <div className={styles.centered}>
+          <EmptyState
+            icon={SearchX}
+            title="No matches"
+            description={`No pending requests match "${search}".`}
+          />
+        </div>
       ) : (
         <RequestQueueList
-          requests={queue.map((request) => ({
+          requests={filtered.map((request) => ({
             id: request.id,
             visitorName: request.visitorName,
             reason: reasonLabel(request.reason),
@@ -46,6 +74,6 @@ export default function OfficerQueuePage() {
           onSelect={(id) => router.push(`/officer/${id}`)}
         />
       )}
-    </div>
+    </AppShell>
   );
 }

@@ -1,8 +1,9 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { ReactNode, useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { FileText } from "lucide-react";
+import { AppShell } from "@/components/AppShell";
 import { EmptyState } from "@/components/EmptyState";
 import { Button } from "@/components/Button";
 import { Card } from "@/components/Card";
@@ -12,6 +13,7 @@ import { PassCard } from "@/components/PassCard";
 import { Textarea } from "@/components/Textarea";
 import { Toast } from "@/components/Toast";
 import {
+  clearSession,
   getActiveRequestForVisitor,
   getLatestRequestForVisitor,
   getSession,
@@ -48,37 +50,42 @@ export default function VisitorHomePage() {
 
   if (!phone || request === undefined) return null;
 
-  if (!request) {
-    return (
-      <div className={styles.screen}>
-        <div className={styles.centered}>
-          <EmptyState
-            icon={FileText}
-            title="No active request"
-            description="Request a permit to visit the office. It only takes a couple of minutes."
-            action={
-              <Button variant="primary" onClick={() => router.push("/visitor/request")}>
-                Request a permit
-              </Button>
-            }
-          />
-        </div>
-      </div>
-    );
-  }
+  const handleSignOut = () => {
+    clearSession();
+    router.replace("/visitor/login");
+  };
 
-  if (request.status === "pending") {
-    return (
-      <div className={styles.screen}>
-        <RequestStatusTracker
-          status="pending"
-          message="An officer will review your request shortly."
+  const shellProps = {
+    size: "narrow" as const,
+    user: { name: request?.visitorName ?? "Visitor", secondary: phone },
+    onSignOut: handleSignOut,
+  };
+
+  let content: ReactNode;
+
+  if (!request) {
+    content = (
+      <div className={styles.centered}>
+        <EmptyState
+          icon={FileText}
+          title="No active request"
+          description="Request a permit to visit the office. It only takes a couple of minutes."
+          action={
+            <Button variant="primary" onClick={() => router.push("/visitor/request")}>
+              Request a permit
+            </Button>
+          }
         />
       </div>
     );
-  }
-
-  if (request.status === "info_requested") {
+  } else if (request.status === "pending") {
+    content = (
+      <RequestStatusTracker
+        status="pending"
+        message="An officer will review your request shortly."
+      />
+    );
+  } else if (request.status === "info_requested") {
     const handleRespond = () => {
       if (!response.trim()) return;
       respondToInfoRequest(request.id, response.trim());
@@ -87,8 +94,8 @@ export default function VisitorHomePage() {
       setShowResponseToast(true);
     };
 
-    return (
-      <div className={styles.screen}>
+    content = (
+      <>
         <Card>
           <div className={styles.infoBlock}>
             <StatusChip status="pending" label="Action needed" />
@@ -114,31 +121,24 @@ export default function VisitorHomePage() {
             onDismiss={() => setShowResponseToast(false)}
           />
         ) : null}
+      </>
+    );
+  } else if (request.status === "approved") {
+    content = (
+      <div className={styles.centered}>
+        <PassCard
+          passReference={request.id}
+          visitorName={request.visitorName}
+          visitorPhotoUrl={request.visitorPhotoUrl}
+          approvedWindow={formatPassValidity(request)}
+          status="valid"
+        />
       </div>
     );
-  }
-
-  if (request.status === "approved") {
-    return (
-      <div className={styles.screen}>
-        <div className={styles.centered}>
-          <PassCard
-            passReference={request.id}
-            visitorName={request.visitorName}
-            visitorPhotoUrl={request.visitorPhotoUrl}
-            approvedWindow={formatPassValidity(request)}
-            status="valid"
-          />
-        </div>
-      </div>
-    );
-  }
-
-  // denied or expired — terminal states, no in-app appeal (request-and-approval.md)
-  const isDenied = request.status === "denied";
-
-  return (
-    <div className={styles.screen}>
+  } else {
+    // denied or expired — terminal states, no in-app appeal (request-and-approval.md)
+    const isDenied = request.status === "denied";
+    content = (
       <Card>
         <div className={styles.outcomeBlock}>
           <StatusChip status={request.status} />
@@ -147,11 +147,17 @@ export default function VisitorHomePage() {
               ? "Your permit request wasn't approved for this visit."
               : "This request expired before it was reviewed in time."}
           </p>
-          <Button variant="primary" fullWidthMobile onClick={() => router.push("/visitor/request")}>
+          <Button
+            variant="primary"
+            fullWidthMobile
+            onClick={() => router.push("/visitor/request")}
+          >
             Submit a new request
           </Button>
         </div>
       </Card>
-    </div>
-  );
+    );
+  }
+
+  return <AppShell {...shellProps}>{content}</AppShell>;
 }

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
+import { AppShell } from "@/components/AppShell";
 import { EmptyState } from "@/components/EmptyState";
 import { Button } from "@/components/Button";
 import { RequestDetailView } from "@/components/RequestDetailView";
@@ -34,7 +35,7 @@ export default function OfficerRequestDetailPage() {
 
   if (!request) {
     return (
-      <div className={styles.screen}>
+      <AppShell size="wide" onBack={() => router.push("/officer")}>
         <div className={styles.notFound}>
           <EmptyState
             icon={FileQuestion}
@@ -47,7 +48,7 @@ export default function OfficerRequestDetailPage() {
             }
           />
         </div>
-      </div>
+      </AppShell>
     );
   }
 
@@ -69,7 +70,7 @@ export default function OfficerRequestDetailPage() {
   };
 
   return (
-    <div className={styles.screen}>
+    <AppShell size="wide" onBack={() => router.push("/officer")}>
       <RequestDetailView
         visitorName={request.visitorName}
         visitorPhotoUrl={request.visitorPhotoUrl}
@@ -104,6 +105,6 @@ export default function OfficerRequestDetailPage() {
           Send request
         </Button>
       </Modal>
-    </div>
+    </AppShell>
   );
 }
